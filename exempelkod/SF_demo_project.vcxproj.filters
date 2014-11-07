@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ResourceCompile Include="sf.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="SF_src">
+      <UniqueIdentifier>{68fc26c0-a236-4164-9284-cc7113448c36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="demos">
+      <UniqueIdentifier>{85825101-eef8-43fc-b204-3e2e26a5b0ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SF_src\Demo.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\DemoHandler.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\glut.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\MyMatrix.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\MyVector.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\OpenGLStuff.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="SF_src\Point.h">
+      <Filter>SF_src</Filter>
+    </ClInclude>
+    <ClInclude Include="demos\Assignment1_Ball.h">
+      <Filter>demos</Filter>
+    </ClInclude>
+    <ClInclude Include="demos\Assignment1_Example.h">
+      <Filter>demos</Filter>
+    </ClInclude>
+    <ClInclude Include="picojson.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SF_src\DemoHandler.cpp">
+      <Filter>SF_src</Filter>
+    </ClCompile>
+    <ClCompile Include="SF_src\OpenGLStuff.cpp">
+      <Filter>SF_src</Filter>
+    </ClCompile>
+    <ClCompile Include="Start.cpp" />
+    <ClCompile Include="demos\Assignment1_Ball.cpp">
+      <Filter>demos</Filter>
+    </ClCompile>
+    <ClCompile Include="demos\Assignment1_Example.cpp">
+      <Filter>demos</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
