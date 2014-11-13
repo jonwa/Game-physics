@@ -18,6 +18,5 @@ namespace Assignment1
 		Ball ball_;
 		Ball::Vec_t pos_, vel_;
 		float mass_, radius_, elasticy_, ground_height_, g_;
-
 	};
 }

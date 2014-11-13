@@ -97,9 +97,14 @@
     <ResourceCompile Include="sf.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="demos\Assignment1_Ball.h" />
     <ClInclude Include="demos\Assignment1_Example.h" />
+    <ClInclude Include="Integrations.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="picojson.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="SF_src\Demo.h" />
     <ClInclude Include="SF_src\DemoHandler.h" />
     <ClInclude Include="SF_src\glut.h" />
@@ -107,6 +112,7 @@
     <ClInclude Include="SF_src\MyVector.h" />
     <ClInclude Include="SF_src\OpenGLStuff.h" />
     <ClInclude Include="SF_src\Point.h" />
+    <ClInclude Include="Spring.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="demos\Assignment1_Ball.cpp" />

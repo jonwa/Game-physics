@@ -6,7 +6,10 @@
 #include "SF_src/DemoHandler.h"
 #include "demos/Assignment1_Ball.h"
 #include "demos/Assignment1_Example.h"
-
+#include "Object.h"
+#include "Ball.h"
+#include "ObjectPool.h"
+#include "Integrations.h"
 
 using namespace std;
 /*
@@ -23,10 +26,13 @@ int main(int argc, char* argv[])
 	float ground_height = 0.f;
 	float g = 9.82f;
 
-	
+	ObjectPool pool;
+	pool.add<Ball<EulerIntegration, SmallerTimeStep>>(pos, vel, 0, radius, 0, Color::BLUE);
+	pool.add<StaticBall>(Object::Vec_t(0, 0, 0), radius);
 
-	DemoHandler::inst().addDemo(new Assignment1::Example(pos, vel, mass, radius, elasticy, ground_height, g));
-	start(argc,argv);//function in "OpenGLStuff"
+	DemoHandler::inst().addDemo(&pool);
+
+	start(argc,argv);//function in "OpenGLStuff"s
 	
 	return 0;
 };

@@ -10,6 +10,9 @@
     <Filter Include="demos">
       <UniqueIdentifier>{85825101-eef8-43fc-b204-3e2e26a5b0ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="demos\Objects">
+      <UniqueIdentifier>{c59e1f63-dbaa-46ab-885a-7d2fce94d469}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SF_src\Demo.h">
@@ -40,6 +43,24 @@
       <Filter>demos</Filter>
     </ClInclude>
     <ClInclude Include="picojson.h" />
+    <ClInclude Include="Object.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Integrations.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Spring.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SF_src\DemoHandler.cpp">
