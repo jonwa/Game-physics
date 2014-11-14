@@ -7,7 +7,7 @@
 class Plane : public BaseObject<Plane> 
 {
 public:
-	static ptr_t Plane::make(Vec_t normal, Vec_t position, float friction_factor, Color color = Color::GRAY)
+	static ptr_t Plane::make(Vec_t normal, Vec_t position, float friction_factor, Color color = Color::PINK)
 	{
 		return std::make_shared<Plane>(normal, position, friction_factor, color, this_is_protected());
 	}
@@ -51,7 +51,7 @@ private:
 
 		float penetration = ball->radius - project;
 
-		// detected coll
+		// detected collision
 		if (penetration >= 0)
 		{
 			// moving towards the plane with vel

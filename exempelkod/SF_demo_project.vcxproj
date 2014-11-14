@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClCompile Include="demos\Assignment1_Ball.cpp" />
     <ClCompile Include="demos\Assignment1_Example.cpp" />
+    <ClCompile Include="Integrations.cpp" />
     <ClCompile Include="SF_src\DemoHandler.cpp" />
     <ClCompile Include="SF_src\OpenGLStuff.cpp" />
     <ClCompile Include="Start.cpp" />

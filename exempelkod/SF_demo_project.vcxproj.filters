@@ -79,5 +79,8 @@
     <ClCompile Include="demos\Assignment1_Example.cpp">
       <Filter>demos</Filter>
     </ClCompile>
+    <ClCompile Include="Integrations.cpp">
+      <Filter>demos\Objects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

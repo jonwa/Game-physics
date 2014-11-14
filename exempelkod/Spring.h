@@ -8,7 +8,7 @@ class Spring : public BaseObject<Spring>
 {
 public:
 	
-	static ptr_t make(BaseBall::ptr_t a, BaseBall::ptr_t b, float k, Color color = Color::WHITE)
+	static ptr_t make(BaseBall::ptr_t a, BaseBall::ptr_t b, float k, Color color = Color::YELLOW)
 	{
 		return std::make_shared<Spring>(a, b, k, color, this_is_protected());
 	}
@@ -36,7 +36,8 @@ public:
 
 	void update(float dt) override
 	{
-		
+		Vec_t spring_force = -(a_->position() - b_->position()) * k_;
+		a_->force() += spring_force;
 	}
 
 private:

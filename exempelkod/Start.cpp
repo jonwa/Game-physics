@@ -2,15 +2,17 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include "SF_src/OpenGLStuff.h"
 #include "SF_src/DemoHandler.h"
 #include "demos/Assignment1_Ball.h"
 #include "demos/Assignment1_Example.h"
 #include "Object.h"
+#include "Integrations.h"
 #include "Ball.h"
 #include "Plane.h"
+#include "Spring.h"
 #include "ObjectPool.h"
-#include "Integrations.h"
 
 using namespace std;
 /*
@@ -27,20 +29,22 @@ int main(int argc, char* argv[])
 
 	ObjectPool<SmallerTimeStep> pool(0.001f);
 
-
+	// planes
 	pool.add<Plane>(Plane::Vec_t(0.f, 1.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.99f); //ground
 	pool.add<Plane>(Plane::Vec_t(1.f, 0.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.2f); //left
 	pool.add<Plane>(Plane::Vec_t(-1.f, 0.f, 0.f), Plane::Vec_t(10.f, 0.f, 0.f), 0.97f); //right
 
-
-	int ball_id = pool.add<Ball<EulerIntegration>>(pos, vel, mass, radius, elasticy, Color::BLUE);
-
-
-	//pool.get<BaseBall>(ball_id);
-	DemoHandler::inst().addDemo(&pool);
-
-	start(argc,argv);//function in "OpenGLStuff"s
+	// balls
+	int dynamic_id = pool.add<Ball<VerletIntegration>>(pos, vel, mass, radius, elasticy);
+	int static_id = pool.add<StaticBall>(StaticBall::Vec_t(5, 8, 0), radius);
 	
+	// springs
+	auto a = pool.get<BaseBall>(dynamic_id);
+	auto b = pool.get<StaticBall>(static_id);
+	pool.add<Spring>(a, b, .2f);
+
+	DemoHandler::inst().addDemo(&pool);
+	start(argc,argv);//function in "OpenGLStuff"s
 	return 0;
 };
 

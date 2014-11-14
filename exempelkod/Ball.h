@@ -2,7 +2,6 @@
 
 #include "Eigen/Core"
 #include "Object.h"
-#include "Integrations.h"
 
 template<typename T>
 class Property
@@ -19,19 +18,18 @@ public:
 	{}
 };
 
-class BaseBall : public BaseObject < BaseBall >
+class BaseBall : public BaseObject <BaseBall>
 {
 public:
 	Property<Vec_t> position;
 	Property<Vec_t> velocity;
 	Property<Vec_t> force;
+	Property<Vec_t> acceleration;
 	Property<float> radius;
 	Property<float> elasticy;
 	Property<float> mass;
 
 protected:
-	Property<Vec_t> acceleration;
-
 	Color color_;
 
 	BaseBall(Vec_t position_, Vec_t velocity, float mass_, float radius_, float elasticy_, Color color, this_is_protected&)
@@ -43,11 +41,10 @@ protected:
 		, radius(radius_)
 		, elasticy(elasticy_)
 		, color_(color)
-	{}
 
+	{}
 };
 
-// Regular
 template<typename IntegrationStrategy>
 class Ball : public BaseBall
 {
@@ -60,6 +57,7 @@ public:
 
 	Ball(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color, this_is_protected&)
 		: BaseBall(position_, velocity_, mass, radius, elasticy, color, this_is_protected())
+		, integration_(*this)
 	{}
 
 	Ball() = delete;
@@ -78,22 +76,23 @@ public:
 
 	void update(float dt) override
 	{
-		force = Vec_t::Zero();
 		force() += Vec_t(0.f, -10.f * mass, 0.f);
+
 		float inv_mass = 1.f / mass;
 		acceleration = force() * inv_mass;
-		integration_(position, velocity, acceleration, dt);
+		integration_(as<BaseBall>(), dt);
+
+		force = Vec_t::Zero();
 	}
 
 private:
 	IntegrationStrategy integration_;
 };
 
-// Static 
 class StaticBall : public Ball<StaticIntegration>
 {
 public:
-	static ptr_t make(Vec_t position_, float radius_, Color color = Color::GRAY)
+	static ptr_t make(Vec_t position_, float radius_, Color color = Color::WHITE)
 	{
 		return std::make_shared<StaticBall>(position_, radius_, color, this_is_protected());
 	}

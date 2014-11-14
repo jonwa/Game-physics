@@ -1,6 +1,9 @@
 #pragma once 
 
+#include <memory>
+#include "Eigen/Core"
 
+class BaseBall;
 
 struct SmallerTimeStep
 {
@@ -26,16 +29,6 @@ private:
 	float step_delta_;
 };
 
-struct EulerIntegration
-{
-	void operator()(Object::Vec_t& pos, Object::Vec_t& vel, Object::Vec_t& acc, float delta)
-	{
-		auto old_pos = pos;
-		pos += vel * delta;
-		vel += acc * delta;
-	}
-};
-
 struct SimpleTimeStep
 {
 	template<typename T>
@@ -47,8 +40,29 @@ struct SimpleTimeStep
 
 struct StaticIntegration
 {
-	void operator()(Object::Vec_t& pos, Object::Vec_t& vel, Object::Vec_t& acc, float delta)
+	StaticIntegration(BaseBall& ball)
+	{}
+
+	void operator()(std::shared_ptr<BaseBall> ball, float delta)
 	{
 
 	}
 };
+
+struct EulerIntegration
+{
+
+	EulerIntegration(BaseBall& ball){}
+	void operator()(std::shared_ptr<BaseBall> ball, float delta);
+};
+
+struct VerletIntegration
+{
+	VerletIntegration(BaseBall& ball);
+	void operator()(std::shared_ptr<BaseBall> ball, float delta);
+
+private:
+	Eigen::Vector3f prev_pos_;
+};
+
+
