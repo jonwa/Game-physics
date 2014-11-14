@@ -3,7 +3,7 @@
 #include <memory>
 #include "Eigen/Core"
 
-class Object
+class Object : std::enable_shared_from_this<Object>
 {
 public:
 	typedef std::shared_ptr<Object> base_ptr_t;
@@ -16,30 +16,36 @@ public:
 	virtual void update(float dt) = 0;
 
 	template<typename T>
-	bool is() const
+	bool is()
 	{
-		return dynamic_cast<T>(this) != nullptr;
+		return as<T>() != nullptr;
+	}
+
+	template<typename T>
+	typename T::ptr_t as()
+	{ 
+		return std::dynamic_pointer_cast<T>(get_this());
 	}
 
 	Point vector_to_point(const Vec_t& vec) const
 	{
 		return Point(vec.x(), vec.y(), vec.z());
 	}
-	
+
 protected:
+	base_ptr_t get_this()
+	{
+		return shared_from_this();
+	}
+
 	struct this_is_protected {};
 };
 
 template<typename T>
-class BaseObject : public Object, std::enable_shared_from_this<BaseObject<T>>
+class BaseObject : public Object
 {
 public:
 	typedef std::shared_ptr<T> ptr_t;
 	
 	virtual ~BaseObject() = default;
-
-	ptr_t get_this() const
-	{
-		return get_shared_from_this();
-	}
 };

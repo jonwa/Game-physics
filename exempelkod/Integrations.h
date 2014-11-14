@@ -1,20 +1,22 @@
 #pragma once 
 
-template <typename IntegrationStrategy>
+
+
 struct SmallerTimeStep
 {
-	SmallerTimeStep()
+	SmallerTimeStep(float dt)
 	:buffered_delta_(0.f)
-	, step_delta_(0.001f)
+	, step_delta_(dt)
 	{}
 
-	void operator()(Object::Vec_t& pos, Object::Vec_t& vel, Object::Vec_t& acc, float delta)
+	template<typename T>
+	void operator()(float delta, T step_function)
 	{
 		buffered_delta_ += delta;
 
 		while (buffered_delta_ >= step_delta_)
 		{
-			integration_(pos, vel, acc, step_delta_);
+			step_function(step_delta_);
 			buffered_delta_ -= step_delta_;
 		}
 	}
@@ -22,7 +24,6 @@ struct SmallerTimeStep
 private:
 	float buffered_delta_;
 	float step_delta_;
-	IntegrationStrategy integration_;
 };
 
 struct EulerIntegration
@@ -35,16 +36,13 @@ struct EulerIntegration
 	}
 };
 
-template <typename IntegrationStrategy>
 struct SimpleTimeStep
 {
-	void operator()(Object::Vec_t& pos, Object::Vec_t& vel, Object::Vec_t& acc, float delta)
+	template<typename T>
+	void operator()(float delta, T step_function)
 	{
-		integration_(pos, vel, acc, delta);
+		step_function(pos, vel, acc, delta);
 	}
-
-private:
-	IntegrationStrategy integration_;
 };
 
 struct StaticIntegration

@@ -4,25 +4,62 @@
 #include "Object.h"
 #include "Integrations.h"
 
+template<typename T>
+class Property
+{
+	T value;
+public:
+	T& operator = (const T &v){ return value = v; }
+	operator const T& () const{ return value; }
+	operator T& () { return value; }
+	const T& operator()() const{ return value; }
+	T& operator()() { return value; }
+	Property(const T& val)
+		:value(val)
+	{}
+};
+
+class BaseBall : public BaseObject < BaseBall >
+{
+public:
+	Property<Vec_t> position;
+	Property<Vec_t> velocity;
+	Property<Vec_t> force;
+	Property<float> radius;
+	Property<float> elasticy;
+	Property<float> mass;
+
+protected:
+	Property<Vec_t> acceleration;
+
+	Color color_;
+
+	BaseBall(Vec_t position_, Vec_t velocity, float mass_, float radius_, float elasticy_, Color color, this_is_protected&)
+		: position(position_)
+		, velocity(velocity)
+		, acceleration(Vec_t::Zero())
+		, force(Vec_t::Zero())
+		, mass(mass_)
+		, radius(radius_)
+		, elasticy(elasticy_)
+		, color_(color)
+	{}
+
+};
+
 // Regular
-template<typename IntegrationStrategy, template <class> class TimeStepStrategy>
-class Ball : public BaseObject<Ball<IntegrationStrategy, TimeStepStrategy>>
+template<typename IntegrationStrategy>
+class Ball : public BaseBall
 {
 public:
 
-	static ptr_t make(Vec_t position, Vec_t velocity, float mass, float radius, float elasticy, Color color = Color::WHITE)
+	static ptr_t make(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color = Color::WHITE)
 	{
-		return std::make_shared<Ball<IntegrationStrategy, TimeStepStrategy>>(position, velocity, mass, radius, elasticy, color, this_is_protected());
+		return std::make_shared<Ball<IntegrationStrategy>>(position_, velocity_, mass, radius, elasticy, color, this_is_protected());
 	}
 
-	Ball(Vec_t position, Vec_t velocity, float mass, float radius, float elasticy, Color color, this_is_protected&)
-		: position_(position)
-		, velocity_(velocity)
-		, acceleration_(Vec_t())
-		, mass_(mass)
-		, radius_(radius)
-		, elasticy_(elasticy)
-		, color_(color)
+	Ball(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color, this_is_protected&)
+		: BaseBall(position_, velocity_, mass, radius, elasticy, color, this_is_protected())
 	{}
 
 	Ball() = delete;
@@ -36,36 +73,32 @@ public:
 
 	void render(DemoHandler& demo) const override
 	{
-		demo.drawPoint(vector_to_point(position_), color_, radius_);
+		demo.drawPoint(vector_to_point(position), color_, radius);
 	}
 
 	void update(float dt) override
 	{
-		time_step_(position_, velocity_, acceleration_, dt);
+		force = Vec_t::Zero();
+		force() += Vec_t(0.f, -10.f * mass, 0.f);
+		float inv_mass = 1.f / mass;
+		acceleration = force() * inv_mass;
+		integration_(position, velocity, acceleration, dt);
 	}
 
 private:
-	Vec_t position_;
-	Vec_t velocity_;
-	Vec_t acceleration_;
-	float mass_;
-	float radius_;
-	float elasticy_;
-	Color color_;
-
-	TimeStepStrategy<IntegrationStrategy> time_step_;
+	IntegrationStrategy integration_;
 };
 
 // Static 
-class StaticBall : public Ball<StaticIntegration, SimpleTimeStep>
+class StaticBall : public Ball<StaticIntegration>
 {
 public:
-	static ptr_t make(Vec_t position, float radius, Color color = Color::GRAY)
+	static ptr_t make(Vec_t position_, float radius_, Color color = Color::GRAY)
 	{
-		return std::make_shared<StaticBall>(position, radius, color, this_is_protected());
+		return std::make_shared<StaticBall>(position_, radius_, color, this_is_protected());
 	}
 
-	StaticBall(Vec_t position, float radius, Color color, this_is_protected&)
-		: Ball(position, Vec_t(), 0.f, radius, 1.0f, color, this_is_protected())
+	StaticBall(Vec_t position_, float radius_, Color color, this_is_protected&)
+		: Ball(position_, Vec_t::Zero(), 0.f, radius_, 1.0f, color, this_is_protected())
 	{}
 };

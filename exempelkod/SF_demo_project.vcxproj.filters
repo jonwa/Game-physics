@@ -61,6 +61,9 @@
     <ClInclude Include="Spring.h">
       <Filter>demos\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SF_src\DemoHandler.cpp">

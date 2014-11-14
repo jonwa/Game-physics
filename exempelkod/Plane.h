@@ -25,34 +25,10 @@ public:
 
 	void try_collision(base_ptr_t other) override
 	{
-		/*mBallHasRestingContact = false;
-		float vrel = mNormal*ball->mVelocity;
-
-		MyVector p_q = ball->mPos - mPointinplane;
-		float project = p_q * mNormal;
-
-		float penetration = ball->mR - project; //hur långt ner i planet vi är
-
-		if (penetration >= 0) //Vi är inne i planet eller exakt på
+		if (other->is<BaseBall>())
 		{
-			if (vrel < -1)//vi är på väg in i planet med fart (notera att den SMALLTHRESHOLD var för liten)
-			{
-				MyVector newVelocity = ball->mVelocity - mNormal * (1 + elasticy) * vrel;
-				ball->mVelocity = newVelocity;
-			}
-			else if (vrel < 1)// VILANDE KONTAKT
-			{
-				MyVector moveUp = mNormal*penetration;
-				ball->mPos += moveUp;
-				ball->mVelocity -= mNormal * vrel;
-				//all rörelse är nu i planet så vi kan motverka den
-				ball->addForce(ball->mVelocity * -10 * ball->mMass * mFrictionFactor);//OBS. inte fysikaliskt korrekt friktion
-				mBallHasRestingContact = true;
-			}
-			else{//vi är på väg ur planet med fart
-
-			}
-		}*/
+			do_try_collision(other->as<BaseBall>());
+		}
 	}
 
 	void render(DemoHandler& demo) const override
@@ -62,7 +38,38 @@ public:
 
 	void update(float dt) override
 	{
+		
+	}
 
+private:
+	void do_try_collision(BaseBall::ptr_t ball)
+	{
+		float vrel = normal_.dot(ball->velocity());
+
+		Vec_t p_q = ball->position() - position_;
+		float project = p_q.dot(normal_);
+
+		float penetration = ball->radius - project;
+
+		// detected coll
+		if (penetration >= 0)
+		{
+			// moving towards the plane with vel
+			if (vrel < -1)
+			{
+				Vec_t new_velocity = ball->velocity() - normal_ * (1 + ball->elasticy()) * vrel;
+				ball->velocity() = new_velocity;
+			}
+			// resting contact
+			else if (vrel < 1)
+			{
+				Vec_t move_up = normal_ * penetration;
+				ball->position() += move_up;
+				ball->velocity() -= normal_ * vrel;
+				
+				ball->force() += (ball->velocity() * -10 * ball->mass * friction_factor_);
+			}
+		}
 	}
 
 private:

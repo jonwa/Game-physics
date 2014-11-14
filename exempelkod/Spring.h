@@ -2,14 +2,22 @@
 
 #include "Eigen/Core"
 #include "Object.h"
+#include "Ball.h"
 
 class Spring : public BaseObject<Spring>
 {
 public:
+	
+	static ptr_t make(BaseBall::ptr_t a, BaseBall::ptr_t b, float k, Color color = Color::WHITE)
+	{
+		return std::make_shared<Spring>(a, b, k, color, this_is_protected());
+	}
 
-	static ptr_t make();
-
-	Spring(this_is_protected&)
+	Spring(BaseBall::ptr_t a, BaseBall::ptr_t b, float k, Color color, this_is_protected&)
+		: a_(a)
+		, b_(b)
+		, k_(k)
+		, color_(color)
 	{}
 
 	Spring() = delete;
@@ -23,14 +31,17 @@ public:
 
 	void render(DemoHandler& demo) const override
 	{
-
+		demo.drawLine(vector_to_point(a_->position), vector_to_point(b_->position), color_);
 	}
 
 	void update(float dt) override
 	{
-	
+		
 	}
 
 private:
-	
+	BaseBall::ptr_t a_;
+	BaseBall::ptr_t b_;
+	float k_;
+	Color color_;
 };

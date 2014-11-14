@@ -8,6 +8,7 @@
 #include "demos/Assignment1_Example.h"
 #include "Object.h"
 #include "Ball.h"
+#include "Plane.h"
 #include "ObjectPool.h"
 #include "Integrations.h"
 
@@ -23,13 +24,19 @@ int main(int argc, char* argv[])
 	float mass = 0.5f;
 	float radius = 0.5f;
 	float elasticy = 0.9f;
-	float ground_height = 0.f;
-	float g = 9.82f;
 
-	ObjectPool pool;
-	pool.add<Ball<EulerIntegration, SmallerTimeStep>>(pos, vel, 0, radius, 0, Color::BLUE);
-	pool.add<StaticBall>(Object::Vec_t(0, 0, 0), radius);
+	ObjectPool<SmallerTimeStep> pool(0.001f);
 
+
+	pool.add<Plane>(Plane::Vec_t(0.f, 1.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.99f); //ground
+	pool.add<Plane>(Plane::Vec_t(1.f, 0.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.2f); //left
+	pool.add<Plane>(Plane::Vec_t(-1.f, 0.f, 0.f), Plane::Vec_t(10.f, 0.f, 0.f), 0.97f); //right
+
+
+	int ball_id = pool.add<Ball<EulerIntegration>>(pos, vel, mass, radius, elasticy, Color::BLUE);
+
+
+	//pool.get<BaseBall>(ball_id);
 	DemoHandler::inst().addDemo(&pool);
 
 	start(argc,argv);//function in "OpenGLStuff"s

@@ -113,6 +113,7 @@
     <ClInclude Include="SF_src\OpenGLStuff.h" />
     <ClInclude Include="SF_src\Point.h" />
     <ClInclude Include="Spring.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="demos\Assignment1_Ball.cpp" />
