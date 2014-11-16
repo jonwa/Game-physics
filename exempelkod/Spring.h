@@ -37,7 +37,7 @@ public:
 	void update(float dt) override
 	{
 		Vec_t spring_force = -(a_->position() - b_->position()) * k_;
-		a_->force() += spring_force;
+		a_->force = a_->force() + spring_force;
 	}
 
 private:

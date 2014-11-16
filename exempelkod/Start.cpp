@@ -13,6 +13,7 @@
 #include "Plane.h"
 #include "Spring.h"
 #include "ObjectPool.h"
+#include "ConfigLoader.h"
 
 using namespace std;
 /*
@@ -21,29 +22,26 @@ using namespace std;
  */
 int main(int argc, char* argv[])
 {
-	auto pos = Assignment1::Ball::Vec_t(4, 8, 0);
-	auto vel = Assignment1::Ball::Vec_t(2, 0, 0);
-	float mass = 0.5f;
+	auto pos = Assignment1::Ball::Vec_t(5, 8, 0);
+	auto vel = Assignment1::Ball::Vec_t(0, 0, 0);
+	float mass = 3.f;
 	float radius = 0.5f;
 	float elasticy = 0.9f;
 
 	ObjectPool<SmallerTimeStep> pool(0.001f);
-
-	// planes
-	pool.add<Plane>(Plane::Vec_t(0.f, 1.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.99f); //ground
-	pool.add<Plane>(Plane::Vec_t(1.f, 0.f, 0.f), Plane::Vec_t(0.f, 0.f, 0.f), 0.2f); //left
-	pool.add<Plane>(Plane::Vec_t(-1.f, 0.f, 0.f), Plane::Vec_t(10.f, 0.f, 0.f), 0.97f); //right
-
-	// balls
-	int dynamic_id = pool.add<Ball<VerletIntegration>>(pos, vel, mass, radius, elasticy);
-	int static_id = pool.add<StaticBall>(StaticBall::Vec_t(5, 8, 0), radius);
+	ConfigLoader::load_content("advanced_config.json", pool);
 	
-	// springs
-	auto a = pool.get<BaseBall>(dynamic_id);
-	auto b = pool.get<StaticBall>(static_id);
-	pool.add<Spring>(a, b, .2f);
-
+	pool.add_update_callback([&pool](DemoHandler& d)
+	{
+		auto spring = pool.get<Spring>("spring");
+		if (d.keyTyped('a'))
+		{
+			spring->enabled = !spring->enabled;
+		}
+	});
+	
 	DemoHandler::inst().addDemo(&pool);
+
 	start(argc,argv);//function in "OpenGLStuff"s
 	return 0;
 };

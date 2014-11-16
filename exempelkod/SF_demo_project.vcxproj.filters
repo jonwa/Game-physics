@@ -64,6 +64,12 @@
     <ClInclude Include="Timer.h">
       <Filter>demos\Objects</Filter>
     </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigLoader.h">
+      <Filter>demos\Objects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SF_src\DemoHandler.cpp">

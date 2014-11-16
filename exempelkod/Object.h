@@ -2,12 +2,17 @@
 #include "SF_src\DemoHandler.h"
 #include <memory>
 #include "Eigen/Core"
+#include "Property.h"
 
 class Object : std::enable_shared_from_this<Object>
 {
 public:
 	typedef std::shared_ptr<Object> base_ptr_t;
 	typedef Eigen::Vector3f Vec_t;
+
+	Object()
+		: enabled(true)
+	{}
 
 	virtual ~Object() = default;
 
@@ -31,6 +36,8 @@ public:
 	{
 		return Point(vec.x(), vec.y(), vec.z());
 	}
+
+	Property<bool> enabled;
 
 protected:
 	base_ptr_t get_this()

@@ -3,6 +3,8 @@
 #include "SF_src\Demo.h"
 #include <vector>
 #include "Timer.h"
+#include <functional>
+#include <map>
 
 template<typename TimeStepStategy>
 class ObjectPool : public Demo
@@ -17,37 +19,52 @@ public:
 	}
 
 	template<typename T, typename... Args> 
-	int add(Args&&... args)
+	int add(std::string id, Args&&... args)
 	{
 		T::ptr_t o = T::make(args...);
 		pool_.push_back(o);
+		pool_ids_.insert(std::make_pair(id, o));
 		return pool_.size() - 1;
 	}
 
 	template<typename T>
-	typename T::ptr_t get(int id)
+	auto get(int id)-> typename T::ptr_t
 	{
 		return pool_[id]->as<T>();
 	}
 
-	void update(DemoHandler* draw)
+	template<typename T>
+	auto get(const std::string& id)-> typename T::ptr_t
 	{
+		return pool_ids_[id]->as<T>();
+	}
+
+	void update(DemoHandler* draw)
+	{			
 		if (!first_update_)
 		{
+			for (auto& c: callbacks_)
+			{
+				c(*draw);
+			}
+
 			auto elapsed = static_cast<float>(timer_.elapsed_milliseconds());
 			float dt = elapsed / 1000.f;
 
 			timer_.start();
 			time_step_(dt, [this](float dt){
-				for (auto &&obj : pool_)
+				for (auto &&obj: pool_)
 				{
-					obj->update(dt);
-
-					for (auto &&other : pool_)
+					if (obj->enabled)
 					{
-						if (obj != other)
+						obj->update(dt);
+					
+						for (auto &&other : pool_)
 						{
-							obj->try_collision(other);
+							if (obj != other && other->enabled)
+							{
+								obj->try_collision(other);
+							}
 						}
 					}
 				}
@@ -63,17 +80,23 @@ public:
 
 	const string getName() override
 	{
-		return "this is the name yo";
+		return "Assignment 1: Spring";
 	}
 
 	const string getInfo() override
 	{
-		return "this is the information yo";
+		return "Use advanced_config.json to configurate the environment.\nRead the READ_ME.txt for instructions!\nPress 'a' to release the spring!!";
 	}
 
+	void add_update_callback(std::function<void(DemoHandler&)> c_b)
+	{
+		callbacks_.push_back(c_b);
+	}
 private:
 	ObjectPool_t pool_;
+	std::map<std::string, Object::base_ptr_t> pool_ids_;
 	Timer timer_;
 	bool first_update_;
 	TimeStepStategy time_step_;
+	std::vector<std::function<void(DemoHandler&)>> callbacks_;
 };

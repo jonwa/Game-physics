@@ -13,7 +13,7 @@ public:
 	}
 	
 	Plane(Vec_t normal, Vec_t position, float friction_factor, Color color, this_is_protected&)
-		: normal_(normal)
+		: normal_(normal.normalized())
 		, position_(position)
 		, friction_factor_(friction_factor)
 		, color_(color)
@@ -58,16 +58,16 @@ private:
 			if (vrel < -1)
 			{
 				Vec_t new_velocity = ball->velocity() - normal_ * (1 + ball->elasticy()) * vrel;
-				ball->velocity() = new_velocity;
+				ball->velocity = new_velocity;
 			}
 			// resting contact
 			else if (vrel < 1)
 			{
 				Vec_t move_up = normal_ * penetration;
-				ball->position() += move_up;
-				ball->velocity() -= normal_ * vrel;
+				ball->position = ball->position() + move_up;
+				ball->velocity = ball->velocity() - normal_ * vrel;
 				
-				ball->force() += (ball->velocity() * -10 * ball->mass * friction_factor_);
+				ball->force = ball->force() + (ball->velocity() * -10 * ball->mass * friction_factor_);
 			}
 		}
 	}

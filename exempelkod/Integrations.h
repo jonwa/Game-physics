@@ -45,13 +45,11 @@ struct StaticIntegration
 
 	void operator()(std::shared_ptr<BaseBall> ball, float delta)
 	{
-
 	}
 };
 
 struct EulerIntegration
 {
-
 	EulerIntegration(BaseBall& ball){}
 	void operator()(std::shared_ptr<BaseBall> ball, float delta);
 };
@@ -63,6 +61,8 @@ struct VerletIntegration
 
 private:
 	Eigen::Vector3f prev_pos_;
+	float step_;
+	Eigen::Vector3f vel_;
 };
 
 

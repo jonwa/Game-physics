@@ -2,21 +2,7 @@
 
 #include "Eigen/Core"
 #include "Object.h"
-
-template<typename T>
-class Property
-{
-	T value;
-public:
-	T& operator = (const T &v){ return value = v; }
-	operator const T& () const{ return value; }
-	operator T& () { return value; }
-	const T& operator()() const{ return value; }
-	T& operator()() { return value; }
-	Property(const T& val)
-		:value(val)
-	{}
-};
+#include "Property.h"
 
 class BaseBall : public BaseObject <BaseBall>
 {
@@ -32,17 +18,17 @@ public:
 protected:
 	Color color_;
 
-	BaseBall(Vec_t position_, Vec_t velocity, float mass_, float radius_, float elasticy_, Color color, this_is_protected&)
-		: position(position_)
-		, velocity(velocity)
-		, acceleration(Vec_t::Zero())
-		, force(Vec_t::Zero())
-		, mass(mass_)
-		, radius(radius_)
-		, elasticy(elasticy_)
-		, color_(color)
-
-	{}
+	BaseBall(Vec_t position_, Vec_t velocity_, float mass_, float radius_, float elasticy_, Color color, this_is_protected&)
+		: color_(color)
+	{
+		position = position_;
+		velocity = velocity_;
+		acceleration = Vec_t::Zero();
+		force = Vec_t::Zero();
+		mass = mass_;
+		radius = radius_;
+		elasticy = elasticy_;
+	}
 };
 
 template<typename IntegrationStrategy>
@@ -76,16 +62,22 @@ public:
 
 	void update(float dt) override
 	{
-		force() += Vec_t(0.f, -10.f * mass, 0.f);
+		apply_gravity(9.8f, dt);
 
-		float inv_mass = 1.f / mass;
-		acceleration = force() * inv_mass;
 		integration_(as<BaseBall>(), dt);
 
 		force = Vec_t::Zero();
 	}
 
 private:
+	void apply_gravity(float g, float dt)
+	{
+		force = force() + Vec_t(0.f, -g * mass, 0.f);
+
+		float inv_mass = 1.f / mass;
+		acceleration = force() * inv_mass;
+	}
+
 	IntegrationStrategy integration_;
 };
 
