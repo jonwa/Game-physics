@@ -1,3 +1,5 @@
+BUILD innehåller en fungerande version av assignment 2 ifall du inte kan kompilera själv med c++11 och/eller Eigen
+
 advanced_configuration används för att skapa och konfigurera objekten som används för uppgift 2.
 OBS! objektstrukturen i json-filen får inte ändras, däremot är det helt okej att pilla så mkt som möjligt med värderna.
 

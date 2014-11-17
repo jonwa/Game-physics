@@ -165,5 +165,4 @@ private: // converters
 		}
 		return old;
 	}
-
 };
