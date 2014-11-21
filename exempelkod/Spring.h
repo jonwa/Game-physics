@@ -38,6 +38,8 @@ public:
 	{
 		Vec_t spring_force = -(a_->position() - b_->position()) * k_;
 		a_->force = a_->force() + spring_force;
+
+		b_->force = b_->force() - spring_force;
 	}
 
 private:
@@ -46,3 +48,5 @@ private:
 	float k_;
 	Color color_;
 };
+
+

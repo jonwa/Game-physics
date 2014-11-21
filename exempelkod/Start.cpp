@@ -34,12 +34,25 @@ int main(int argc, char* argv[])
 	pool.add_update_callback([&pool](DemoHandler& d)
 	{
 		auto spring = pool.get<Spring>("spring");
+		if (spring == nullptr)
+		{
+			return;
+		}
 		if (d.keyTyped('a'))
 		{
 			spring->enabled = !spring->enabled;
 		}
 	});
 	
+	pool.add_update_callback([&pool](DemoHandler& d)
+	{
+		if (d.keyTyped('r'))
+		{
+			pool.clear();
+			ConfigLoader::load_content("advanced_config.json", pool);
+		}
+	});
+
 	DemoHandler::inst().addDemo(&pool);
 
 	start(argc,argv);//function in "OpenGLStuff"s

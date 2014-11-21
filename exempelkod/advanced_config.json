@@ -20,17 +20,18 @@
 	"spring": {
 		"ball_1": 
 		{
-			"position": [ 5, 8, 0 ],
-			"velocity": [ 0, 0, 0 ],
-			"mass": 3,
-			"radius": 0.5,
+			"position": [ 5, 6, 0 ],
+			"velocity": [ 5, 0, 0 ],
+			"mass": 10,
+			"radius": 0.2,
 			"elasticity": 0.9,
+            "g": 0,
 			"type":"ball"
 		},
 		"ball_2":
 		{
 			"position": [ 5, 8, 0 ],
-			"radius": 0.4,
+			"radius": 0.1,
 			"type":"static_ball"
 		},
 		"k": 14,

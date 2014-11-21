@@ -18,6 +18,7 @@ public:
 
 	virtual void try_collision(base_ptr_t other) = 0;
 	virtual void render(DemoHandler& demo) const = 0;
+	virtual void late_update(float dt) {};
 	virtual void update(float dt) = 0;
 
 	template<typename T>

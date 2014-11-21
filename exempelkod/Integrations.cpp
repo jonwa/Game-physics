@@ -38,7 +38,7 @@ void VerletIntegration::operator()(BaseBall::ptr_t ball, float delta)
 
 	auto inv_mass = 1.f / ball->mass;
 	
-	auto new_pos = ball->position() * 2 - prev_pos_ + ball->force() * inv_mass * step_ * step_;
+	Object::Vec_t new_pos = ball->position() * 2 - prev_pos_ + ball->force() * inv_mass * step_ * step_;
 	prev_pos_ = ball->position();
 	ball->position = new_pos;
 }

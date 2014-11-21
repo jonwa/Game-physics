@@ -36,7 +36,11 @@ public:
 	template<typename T>
 	auto get(const std::string& id)-> typename T::ptr_t
 	{
-		return pool_ids_[id]->as<T>();
+		auto iter = pool_ids_.find(id);
+		if (iter == pool_ids_.end())
+			return nullptr;
+		else
+			return iter->second->as<T>();
 	}
 
 	void update(DemoHandler* draw)
@@ -53,12 +57,19 @@ public:
 
 			timer_.start();
 			time_step_(dt, [this](float dt){
+				//First update all objects
 				for (auto &&obj: pool_)
 				{
 					if (obj->enabled)
 					{
 						obj->update(dt);
-					
+					}
+				}
+				//Then test collisions
+				for (auto &&obj : pool_)
+				{
+					if (obj->enabled)
+					{
 						for (auto &&other : pool_)
 						{
 							if (obj != other && other->enabled)
@@ -66,6 +77,14 @@ public:
 								obj->try_collision(other);
 							}
 						}
+					}
+				}
+				//then call late update
+				for (auto &&obj : pool_)
+				{
+					if (obj->enabled)
+					{
+						obj->late_update(dt);
 					}
 				}
 			});
@@ -76,6 +95,12 @@ public:
 			}
 		}
 		first_update_ = false;
+	}
+
+	void clear()
+	{
+		pool_ids_.clear();
+		pool_.clear();
 	}
 
 	const string getName() override

@@ -14,11 +14,12 @@ public:
 	Property<float> radius;
 	Property<float> elasticy;
 	Property<float> mass;
+	Property<float> g;
 
 protected:
 	Color color_;
 
-	BaseBall(Vec_t position_, Vec_t velocity_, float mass_, float radius_, float elasticy_, Color color, this_is_protected&)
+	BaseBall(Vec_t position_, Vec_t velocity_, float mass_, float radius_, float elasticy_, Color color, float g_, this_is_protected&)
 		: color_(color)
 	{
 		position = position_;
@@ -28,6 +29,7 @@ protected:
 		mass = mass_;
 		radius = radius_;
 		elasticy = elasticy_;
+		g = g_;
 	}
 };
 
@@ -36,13 +38,13 @@ class Ball : public BaseBall
 {
 public:
 
-	static ptr_t make(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color = Color::WHITE)
+	static ptr_t make(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color = Color::WHITE, float g = 9.8f)
 	{
-		return std::make_shared<Ball<IntegrationStrategy>>(position_, velocity_, mass, radius, elasticy, color, this_is_protected());
+		return std::make_shared<Ball<IntegrationStrategy>>(position_, velocity_, mass, radius, elasticy, color, g, this_is_protected());
 	}
 
-	Ball(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color, this_is_protected&)
-		: BaseBall(position_, velocity_, mass, radius, elasticy, color, this_is_protected())
+	Ball(Vec_t position_, Vec_t velocity_, float mass, float radius, float elasticy, Color color, float g, this_is_protected&)
+		: BaseBall(position_, velocity_, mass, radius, elasticy, color, g, this_is_protected())
 		, integration_(*this)
 	{}
 
@@ -62,10 +64,13 @@ public:
 
 	void update(float dt) override
 	{
-		apply_gravity(9.8f, dt);
+		
+	}
 
+	void late_update(float dt) override
+	{
+		apply_gravity(g, dt);
 		integration_(as<BaseBall>(), dt);
-
 		force = Vec_t::Zero();
 	}
 
@@ -90,6 +95,6 @@ public:
 	}
 
 	StaticBall(Vec_t position_, float radius_, Color color, this_is_protected&)
-		: Ball(position_, Vec_t::Zero(), 0.f, radius_, 1.0f, color, this_is_protected())
+		: Ball(position_, Vec_t::Zero(), 0.f, radius_, 1.0f, color, 0.f, this_is_protected())
 	{}
 };

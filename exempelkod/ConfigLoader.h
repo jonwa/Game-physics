@@ -40,7 +40,7 @@ private:
 		auto elasticity = to_float(info.get("elasticity"));
 		auto color = to_color(info.get("color"));
 		auto k = to_float(info.get("k"));
-	
+		auto g = to_float(info.get("g"), 9.8f);
 		auto normal = to_vector(info.get("normal"));
 		auto friction_factor = to_float(info.get("friction_factor"));
 
@@ -48,7 +48,7 @@ private:
 
 		if (type == "ball")
 		{
-			return pool.add<Ball<EulerIntegration>>(id, position, velocity, mass, radius, elasticity, color);
+			return pool.add<Ball<EulerIntegration>>(id, position, velocity, mass, radius, elasticity, color, g);
 		}
 		if (type == "static_ball")
 		{
@@ -136,33 +136,30 @@ private: // converters
 		return old;
 	}
 
-	static float to_float(picojson::value val)
+	static float to_float(picojson::value val, float def = 0.f)
 	{
-		float old = 0.f;
 		if (val.is<double>())
 		{
-			old = val.get<double>();
+			def = val.get<double>();
 		}
-		return old;
+		return def;
 	}
 
-	static int to_int(picojson::value val)
+	static int to_int(picojson::value val, int def = 0)
 	{
-		int old = 0.f;
 		if (val.is<int>())
 		{
-			old = val.get<int>();
+			def = val.get<int>();
 		}
-		return old;
+		return def;
 	}
 
-	static std::string to_string(picojson::value val)
+	static std::string to_string(picojson::value val, std::string def = std::string())
 	{
-		std::string old;
 		if (val.is<std::string>())
 		{
-			old = val.get<std::string>();
+			def = val.get<std::string>();
 		}
-		return old;
+		return def;
 	}
 };
