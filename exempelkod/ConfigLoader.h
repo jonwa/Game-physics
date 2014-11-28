@@ -8,17 +8,22 @@
 #include "Plane.h"
 #include "Spring.h"
 #include <algorithm>
+#include <ostream>
 
 class ConfigLoader
 {
 public:
 	template<typename T>
-	static void load_content(const std::string& file_name, ObjectPool<T>& pool)
+	static void load_content(const std::string& file_name, const std::string& config_exampe_object, ObjectPool<T>& pool)
 	{
 		std::ifstream file(file_name);
 		std::string err;
-		picojson::value v;
-		err = picojson::parse(v, file);
+		picojson::value loaded;
+		err = picojson::parse(loaded, file);
+
+		picojson::value v = loaded.get(config_exampe_object);
+
+		std::cout << err << std::endl;
 
 		for (auto&& key : v.get<picojson::object>())
 		{
@@ -39,10 +44,11 @@ private:
 		auto radius = to_float(info.get("radius"));
 		auto elasticity = to_float(info.get("elasticity"));
 		auto color = to_color(info.get("color"));
-		auto k = to_float(info.get("k"));
+		auto k = to_float(info.get("spring_constant"));
 		auto g = to_float(info.get("g"), 9.8f);
 		auto normal = to_vector(info.get("normal"));
 		auto friction_factor = to_float(info.get("friction_factor"));
+		auto resting_length = to_float(info.get("resting_length"));
 
 		auto type = to_string(info.get("type"));
 
@@ -61,7 +67,7 @@ private:
 
 			auto ball_1_ptr = load_object(id + "::__ball_1", obj_1, pool);
 			auto ball_2_ptr = load_object(id + "::__ball_2", obj_2, pool);
-			return pool.add<Spring>(id, pool.get<BaseBall>(ball_1_ptr), pool.get<BaseBall>(ball_2_ptr), k, color);
+			return pool.add<Spring>(id, pool.get<BaseBall>(ball_1_ptr), pool.get<BaseBall>(ball_2_ptr), k, resting_length, color);
 		}
 		if (type == "plane")
 		{

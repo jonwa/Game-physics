@@ -16,12 +16,14 @@
 #include "ConfigLoader.h"
 
 using namespace std;
+
 /*
  The entry point for the program.
  You need to add your demos before you call start.
  */
 int main(int argc, char* argv[])
 {
+	std::string example_object = "1";
 	auto pos = Assignment1::Ball::Vec_t(5, 8, 0);
 	auto vel = Assignment1::Ball::Vec_t(0, 0, 0);
 	float mass = 3.f;
@@ -29,7 +31,7 @@ int main(int argc, char* argv[])
 	float elasticy = 0.9f;
 
 	ObjectPool<SmallerTimeStep> pool(0.001f);
-	ConfigLoader::load_content("advanced_config.json", pool);
+	ConfigLoader::load_content("advanced_config.json", example_object, pool);
 	
 	pool.add_update_callback([&pool](DemoHandler& d)
 	{
@@ -44,12 +46,23 @@ int main(int argc, char* argv[])
 		}
 	});
 	
-	pool.add_update_callback([&pool](DemoHandler& d)
+	pool.add_update_callback([&pool, &example_object](DemoHandler& d)
 	{
 		if (d.keyTyped('r'))
 		{
 			pool.clear();
-			ConfigLoader::load_content("advanced_config.json", pool);
+			ConfigLoader::load_content("advanced_config.json", example_object, pool);
+		}
+
+		for (char i = 1; i <= 3; ++i)
+		{
+			/* WHADAP */
+			if (d.keyTyped(i + '0'))
+			{
+				pool.clear();
+				example_object = std::string({ static_cast<char>(i + '0') });
+				ConfigLoader::load_content("advanced_config.json", example_object, pool);
+			}
 		}
 	});
 
@@ -63,4 +76,4 @@ int main(int argc, char* argv[])
  (c)2012 Henrik Engström, henrik.engstrom@his.se
  This code may only be used by students in the Game Physics course at the University of Skövde
  Contact me if you want to use it for other purposes.
- */
+*/

@@ -15,6 +15,8 @@ struct SmallerTimeStep
 	template<typename T>
 	void operator()(float delta, T step_function)
 	{
+		delta = std::min(1.f, delta);
+
 		buffered_delta_ += delta;
 
 		while (buffered_delta_ >= step_delta_)
