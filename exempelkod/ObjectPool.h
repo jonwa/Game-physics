@@ -105,12 +105,12 @@ public:
 
 	const string getName() override
 	{
-		return "Assignment 1: Spring";
+		return "Assignment 3: Centripetal Force";
 	}
 
 	const string getInfo() override
 	{
-		return "Use advanced_config.json to configurate the environment.\nRead the READ_ME.txt for instructions!\nPress 'a' to release the spring!!";
+		return "\nRead the READ_ME.txt for instructions!\nPress 'a' to release the spring.\nUse 'r' to reset with the current example.\nUse keys '1-4' to try out four different default examples!\nUse advanced_config.json to configurate the existing environment or to add own examples";
 	}
 
 	void add_update_callback(std::function<void(DemoHandler&)> c_b)

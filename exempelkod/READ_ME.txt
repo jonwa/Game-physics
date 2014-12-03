@@ -1,14 +1,18 @@
-BUILD innehåller en fungerande version av assignment 2 ifall du inte kan kompilera själv med c++11 och/eller Eigen
+mappen BUILD innehåller .exe filen. Börja med att öppna denna
 
-advanced_configuration används för att skapa och konfigurera objekten som används för uppgift 2.
-OBS! objektstrukturen i json-filen får inte ändras, däremot är det helt okej att pilla så mkt som möjligt med värderna.
+Uppgift 3 består av fyra fördefinierade exempel för centripetalkraft. Under körning kan du använda 
+tangenterna 1-4 för att växla mellan dessa. tryck tangent r för att starta om det nuvarande exemplet och tangent 
+a för att släppa fjädern. 
 
-sry för koden, vi hade väl lite för roligt DSU i all ära, men för lite c++ så när det väl är dags så är det dags!
+advanced_configuration.json används för att skapa och konfigurera objekten. Använd denna för att experimentera med
+egenvalda värden. Vill du lägga till egna exempel går det bra att ändra på någon av de existerande. Det är inte okej
+att lägga till fler än dom som redan finns pga inläsning i kod. 
 
-Kontakta om något skulle knasa. 
+Kontakta oss om problem skulle uppstå!
 
-i mappen BACKUPS finns en kopia av orginalfilen för json. Ersätt med den om du råkar förstöra den andra. 
+i mappen BACKUPS finns en kopia av orginalfilen för advanced_configuration.json. 
+Ersätt filen i builds med backup-filen om någonting felaktigt skulle uppstå. 
 
-MVH
-Jon b12jonwa
-Sebastian Z a12sebza
+
+Jon (b12jonwa)
+Sebastian Z (a12sebza)

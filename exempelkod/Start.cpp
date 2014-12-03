@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 			ConfigLoader::load_content("advanced_config.json", example_object, pool);
 		}
 
-		for (char i = 1; i <= 3; ++i)
+		for (char i = 1; i <= 4; ++i)
 		{
 			/* WHADAP */
 			if (d.keyTyped(i + '0'))

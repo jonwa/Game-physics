@@ -1,99 +1,133 @@
 {
-    "1":
-    {	
-        "ground":{
-            "normal": [0, 1, 0],
-            "position": [0, 0, 0],
+    "1": {
+        "ground": {
+            "normal": [ 0, 1, 0 ],
+            "position": [ 0, 0, 0 ],
             "friction_factor": 0.9,
             "type": "plane"
         },
-        "left":{
-            "normal": [1, 0, 0],
-            "position": [0, 0, 0],
+        "left": {
+            "normal": [ 1, 0, 0 ],
+            "position": [ 0, 0, 0 ],
             "friction_factor": 0.2,
             "type": "plane"
         },
-        "right":{
-            "normal": [-1, 0, 0],
-            "position": [10, 0, 0],
+        "right": {
+            "normal": [ -1, 0, 0 ],
+            "position": [ 10, 0, 0 ],
             "friction_factor": 0.97,
             "type": "plane"
         },
         "spring": {
-            "ball_1": 
-            {
+            "ball_1": {
                 "position": [ 5, 3, 0 ],
                 "velocity": [ 5, 0, 0 ],
                 "mass": 5,
                 "radius": 0.2,
                 "elasticity": 0.9,
                 "g": 0,
-                "type":"ball",
+                "type": "ball",
                 "color": "green"
             },
-            "ball_2":
-            {
+            "ball_2": {
                 "position": [ 5, 5, 0 ],
                 "radius": 0.1,
-                "type":"static_ball"
+                "type": "static_ball"
             },
             "spring_constant": 20,
             "type": "spring"
         }
     },
-    "2":
-    {	
-        "ground":{
-            "normal": [0, 1, 0],
-            "position": [0, 0, 0],
+    "2": {
+        "ground": {
+            "normal": [ 0, 1, 0 ],
+            "position": [ 0, 0, 0 ],
             "friction_factor": 0.2,
             "type": "plane"
         },
-        "left":{
-            "normal": [1, 0, 0],
-            "position": [0, 0, 0],
+        "left": {
+            "normal": [ 1, 0, 0 ],
+            "position": [ 0, 0, 0 ],
             "friction_factor": 0.2,
             "type": "plane"
         },
-        "right":{
-            "normal": [-1, 0, 0],
-            "position": [10, 0, 0],
+        "right": {
+            "normal": [ -1, 0, 0 ],
+            "position": [ 10, 0, 0 ],
             "friction_factor": 0.2,
             "type": "plane"
         },
-        "roof":{
-            "normal": [0, -1, 0],
-            "position": [0, 10, 0],
+        "roof": {
+            "normal": [ 0, -1, 0 ],
+            "position": [ 0, 10, 0 ],
             "friction_factor": 0.2,
             "type": "plane"
         },
         "spring": {
-            "ball_1": 
-            {
+            "ball_1": {
                 "position": [ 5, 6, 0 ],
                 "velocity": [ 5, 0, 0 ],
                 "mass": 2,
                 "radius": 0.2,
                 "elasticity": 0.5,
                 "g": 0,
-                "type":"ball"
+                "type": "ball"
             },
-            "ball_2":
-            {
+            "ball_2": {
                 "position": [ 5, 4, 0 ],
                 "velocity": [ -4, 1, 0 ],
                 "mass": 4,
                 "radius": 0.4,
                 "elasticity": 0.9,
                 "g": 0,
-                "type":"ball"
+                "type": "ball"
             },
             "resting_length": 2,
             "spring_constant": 180,
             "type": "spring"
         }
     },
-    "3":
+    "3": {
+        "ground": {
+            "normal": [ 0, 1, 0 ],
+            "position": [ 0, 0, 0 ],
+            "friction_factor": 0.9,
+            "type": "plane"
+        },
+        "left": {
+            "normal": [ 1, 0, 0 ],
+            "position": [ 0, 0, 0 ],
+            "friction_factor": 0.2,
+            "type": "plane"
+        },
+        "right": {
+            "normal": [ -1, 0, 0 ],
+            "position": [ 10, 0, 0 ],
+            "friction_factor": 0.97,
+            "type": "plane"
+        },
+        "spring": {
+            "ball_1": {
+                "position": [ 5, 3, 0 ],
+                "velocity": [ 10, 0, 0 ],
+                "mass": 2,
+                "radius": 0.2,
+                "elasticity": 0.9,
+                "g": 0,
+                "type": "ball",
+                "color": "green"
+            },
+            "ball_2": {
+                "position": [ 5, 5, 0 ],
+                "radius": 0.1,
+                "type": "static_ball"
+            },
+            "resting_length": 1,
+            "spring_constant": 180,
+            "type": "spring"
+        }
+    },
+    "4":
     {	
         "ground":{
             "normal": [0, 1, 0],
@@ -116,9 +150,9 @@
         "spring": {
             "ball_1": 
             {
-                "position": [ 5, 3, 0 ],
-                "velocity": [ 10, 0, 0 ],
-                "mass": 2,
+                "position": [ 5, 4.63, 0 ],
+                "velocity": [ 5.9, 0, 0 ],
+                "mass": 0.2,
                 "radius": 0.2,
                 "elasticity": 0.9,
                 "g": 0,
@@ -131,8 +165,8 @@
                 "radius": 0.1,
                 "type":"static_ball"
             },
-            "resting_length": 1,
-            "spring_constant": 180,
+            "resting_length": 0.37,
+            "spring_constant": 54.56,
             "type": "spring"
         }
     }
